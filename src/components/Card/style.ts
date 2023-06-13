@@ -15,9 +15,22 @@ export const BoxCard = styled(Link)`
   padding: 2rem;
   border-radius: 10px;
   cursor: pointer;
+  display: flex;
+  flex-direction: column;
 
   &:hover {
     box-shadow: inset 0 0 0 1px ${props => props.theme["base-label"]};
+  }
+
+  span {
+    color: ${props => props.theme["base-span"]};
+    font-weight: 400;
+    font-size: 0.875rem;
+    margin-bottom: 1rem;
+    display: flex;
+    gap: 8px;
+    align-items: center;
+    justify-content: flex-end;
   }
 
   div {
@@ -30,12 +43,10 @@ export const BoxCard = styled(Link)`
       color: ${props => props.theme["base-title"]};
       font-weight: 700;
       font-size: 1.25rem;
-    }
-
-    span {
-      color: ${props => props.theme["base-span"]};
-      font-weight: 400;
-      font-size: 0.875rem;
+      display: -webkit-box;
+      -webkit-line-clamp: 1;
+      -webkit-box-orient: vertical;
+      overflow: hidden;
     }
   }
 

@@ -1,48 +1,74 @@
 import { Card } from "@/components/Card";
 import { Cover } from "@/components/Cover";
 import { Search } from "@/components/Search";
+import { apiService } from "@/services/api";
 import { faGithub } from "@fortawesome/free-brands-svg-icons";
 import { faArrowUpRightFromSquare, faBuilding, faUserGroup } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { useEffect, useState } from "react";
 import { BloggerContainer, BloggerInfoContainer, ExtraBloggerInfoContainer, ExtraInfo } from "./style";
 
-export const Home = () => (
-  <>
-    <Cover>
-      <img src="https://github.com/jessicacastro.png" alt="Jessica Castro" />
+interface Blogger {
+  login: string
+  avatar_url: string
+  name: string
+  company: string
+  followers: number
+  bio: string
+  html_url: string
+}
 
-      <BloggerContainer>
-        <BloggerInfoContainer>
-          <h2>Jessica Castro</h2>
-          <a href="https://github.com/jessicacastro">
-            github
-            <FontAwesomeIcon icon={faArrowUpRightFromSquare} />
-          </a>
-        </BloggerInfoContainer>
+export const Home = () => {
+  const [blogger, setBlogger] = useState<Blogger>()
 
-        <p>
-          Hey there! I'm s Senior Software Engineer (Full Stack Developer) at Play9. I'm 27 years old, I like technology, games and futsal.
-        </p>
+  const loadBlogger = async () => {
+    const response = await apiService.get('/users/jessicacastro');
 
-        <ExtraBloggerInfoContainer>
-          <ExtraInfo>
-            <FontAwesomeIcon icon={faGithub} />
-            <span>jessicacastro</span>
-          </ExtraInfo>
+    setBlogger(response.data)
+  }
 
-          <ExtraInfo>
-            <FontAwesomeIcon icon={faBuilding} />
-            <span>Play9</span>
-          </ExtraInfo>
+  useEffect(() => {
+    loadBlogger()
+  }, [])
 
-          <ExtraInfo>
-            <FontAwesomeIcon icon={faUserGroup} />
-            <span>32 seguidores</span>
-          </ExtraInfo>
-        </ExtraBloggerInfoContainer>
-      </BloggerContainer>
-    </Cover>
-    <Search />
-    <Card />
-  </>
-)
+  return (
+    <>
+      <Cover>
+        <img src={blogger?.avatar_url} alt={blogger?.name} />
+
+        <BloggerContainer>
+          <BloggerInfoContainer>
+            <h2>{blogger?.name}</h2>
+            <a href={blogger?.html_url}>
+              github
+              <FontAwesomeIcon icon={faArrowUpRightFromSquare} />
+            </a>
+          </BloggerInfoContainer>
+
+          <p>
+            {blogger?.bio}
+          </p>
+
+          <ExtraBloggerInfoContainer>
+            <ExtraInfo>
+              <FontAwesomeIcon icon={faGithub} />
+              <span>{blogger?.login}</span>
+            </ExtraInfo>
+
+            <ExtraInfo>
+              <FontAwesomeIcon icon={faBuilding} />
+              <span>{blogger?.company}</span>
+            </ExtraInfo>
+
+            <ExtraInfo>
+              <FontAwesomeIcon icon={faUserGroup} />
+              <span>{blogger?.followers} seguidores</span>
+            </ExtraInfo>
+          </ExtraBloggerInfoContainer>
+        </BloggerContainer>
+      </Cover>
+      <Search />
+      <Card />
+    </>
+  )
+}

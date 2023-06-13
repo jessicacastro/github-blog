@@ -3,15 +3,17 @@ import { ThemeProvider } from "styled-components";
 
 import { Router } from "./Router";
 
-import { GlobalStyle } from "./styles/global";
-import { defaultTheme } from "./styles/themes/default";
+import { PostListProvider } from "@/contexts/PostsContext";
+import { GlobalStyle } from "@/styles/global";
+import { defaultTheme } from "@/styles/themes/default";
 
 export const App = () => (
   <ThemeProvider theme={defaultTheme}>
-    <BrowserRouter>
-      <Router />
-    </BrowserRouter>
-
+    <PostListProvider>
+      <BrowserRouter>
+        <Router />
+      </BrowserRouter>
+    </PostListProvider>
     <GlobalStyle />
   </ThemeProvider>
 )

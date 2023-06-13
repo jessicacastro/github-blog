@@ -33,9 +33,19 @@ export const ExtraInfo = styled.div`
   display: flex;
   align-items: center;
   gap: 8px;
+
+  & > a {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    text-decoration: none;
+    color: ${props => props.theme["base-text"]}
+  }
 `
 
 export const PostContainer = styled.div`
   width: 100%;
   margin-top: 40px;
+  padding-bottom: 2rem;
 `
+
